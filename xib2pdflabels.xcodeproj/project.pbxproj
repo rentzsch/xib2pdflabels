@@ -10,6 +10,7 @@
 		797998DF189AC46D00CB30D8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 797998DE189AC46D00CB30D8 /* Foundation.framework */; };
 		797998E2189AC46D00CB30D8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 797998E1189AC46D00CB30D8 /* main.m */; };
 		797998ED189AC79A00CB30D8 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 797998EC189AC79A00CB30D8 /* AppKit.framework */; };
+		797998F0189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 797998EF189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,8 @@
 		797998E1189AC46D00CB30D8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		797998E4189AC46D00CB30D8 /* xib2pdflabels-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "xib2pdflabels-Prefix.pch"; sourceTree = "<group>"; };
 		797998EC189AC79A00CB30D8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		797998EE189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTextField+jr_pdfLabelKey.h"; sourceTree = "<group>"; };
+		797998EF189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTextField+jr_pdfLabelKey.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				797998E1189AC46D00CB30D8 /* main.m */,
+				797998EE189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.h */,
+				797998EF189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.m */,
 				797998E3189AC46D00CB30D8 /* Supporting Files */,
 			);
 			path = xib2pdflabels;
@@ -139,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				797998F0189AC98F00CB30D8 /* NSTextField+jr_pdfLabelKey.m in Sources */,
 				797998E2189AC46D00CB30D8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

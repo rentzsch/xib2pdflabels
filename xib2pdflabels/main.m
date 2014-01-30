@@ -1,8 +1,19 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "NSTextField+jr_pdfLabelKey.h"
 
 @interface JRPDFLabel : NSTextField
 @end
+
+static void walkNSView(NSView *view, NSMutableArray *labels) {
+    for (NSView *subview in view.subviews) {
+        if ([subview isKindOfClass:[JRPDFLabel class]]) {
+            [labels addObject:subview];
+        } else {
+            walkNSView(subview, labels);
+        }
+    }
+}
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -33,8 +44,13 @@ int main(int argc, const char * argv[]) {
             for (id topLevelObject in topLevelObjects) {
                 if ([topLevelObject isKindOfClass:[JRPDFLabel class]]) {
                     [labels addObject:topLevelObject];
+                } else if ([topLevelObject isKindOfClass:[NSView class]]) {
+                    walkNSView(topLevelObject, labels);
                 }
             }
+        }}
+        {{
+            
         }}
         
         NSMutableData *pdfData = nil;
@@ -75,7 +91,7 @@ int main(int argc, const char * argv[]) {
             CGPDFContextClose( pdfContext );
             CGContextRelease( pdfContext );
             
-            //[pdfData writeToFile:@"/tmp/out2.pdf" atomically:NO];
+            [pdfData writeToFile:@"/tmp/out2.pdf" atomically:NO];
         }}
     }
     return 0;
