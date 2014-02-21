@@ -28,12 +28,11 @@ int main(int argc, const char * argv[]) {
         // append bplist size to pdf data
         // burp pdf data
         
-        NSString *nibPath = @"/Users/wolf/Desktop/JRPDFLabel1.nib";
+        NSString *nibPath = @"/Users/wolf/_current/JRPDFLabel/JRPDFLabel1.nib";
         NSData *nibData = [NSData dataWithContentsOfFile:nibPath];
         assert(nibData);
         NSNib *nib = [[NSNib alloc] initWithNibData:nibData bundle:nil];
         assert(nib);
-        NSLog(@"%@", nib);
         
         NSMutableArray *labels = nil;
         {{
@@ -48,9 +47,6 @@ int main(int argc, const char * argv[]) {
                     walkNSView(topLevelObject, labels);
                 }
             }
-        }}
-        {{
-            
         }}
         
         NSMutableData *pdfData = nil;
@@ -67,12 +63,12 @@ int main(int argc, const char * argv[]) {
                 [NSGraphicsContext saveGraphicsState]; {
                     [NSGraphicsContext setCurrentContext:newGC];
                     
-                    CFMutableDictionaryRef pageDictionary = CFDictionaryCreateMutable(NULL, 0,
+                    CFMutableDictionaryRef pageDictionary = CFDictionaryCreateMutable(NULL,
+                                                                                      0,
                                                                                       &kCFTypeDictionaryKeyCallBacks,
-                                                                                      &kCFTypeDictionaryValueCallBacks); // 6
+                                                                                      &kCFTypeDictionaryValueCallBacks);
                     {{
                         CGRect pageRect = CGRectMake(0, 0, label.bounds.size.width, label.bounds.size.height);
-                        NSLog(@"%@ %@", label.stringValue, NSStringFromRect(label.bounds));
                         CFDataRef boxData = CFDataCreate(NULL,(const UInt8*)&pageRect, sizeof (CGRect));
                         CFDictionarySetValue(pageDictionary, kCGPDFContextMediaBox, boxData);
                     }}
@@ -90,9 +86,35 @@ int main(int argc, const char * argv[]) {
             
             CGPDFContextClose( pdfContext );
             CGContextRelease( pdfContext );
-            
-            [pdfData writeToFile:@"/tmp/out2.pdf" atomically:NO];
         }}
+        
+        NSMutableDictionary *pageIndexByLabelKey = [NSMutableDictionary new];
+        {{
+            NSUInteger labelIndex = 0;
+            for (JRPDFLabel *label in labels) {
+                [pageIndexByLabelKey setObject:@(labelIndex++)
+                                        forKey:[label jr_pdfLabelKey]];
+            }
+        }}
+        {{
+            NSError *error = nil;
+            NSData *bplist = [NSPropertyListSerialization dataWithPropertyList:@{@"v1":pageIndexByLabelKey}
+                                                                        format:NSPropertyListBinaryFormat_v1_0
+                                                                       options:0
+                                                                         error:&error];
+            assert(bplist);
+            NSCAssert1(!error, @"%@", error);
+            uint32_t bplistLengthNative = (uint32_t)[bplist length];
+            uint32_t bplistLengthBigEndian = CFSwapInt32HostToBig(bplistLengthNative);
+            const char magicNumber[] = "pdflabels_magic_number";
+            
+            // [pdf][bplist][uint32_t (big endian)]["pdflabels_magic_number"]
+            [pdfData appendData:bplist];
+            [pdfData appendBytes:&bplistLengthBigEndian length:sizeof(bplistLengthBigEndian)];
+            [pdfData appendBytes:magicNumber length:strlen(magicNumber)];
+        }}
+        
+        [pdfData writeToFile:@"/Users/wolf/_current/JRPDFLabel/JRPDFLabelUsingApp/JRPDFLabelUsingApp/JRPDFLabel.pdf" atomically:NO];
     }
     return 0;
 }
