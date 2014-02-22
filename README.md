@@ -2,21 +2,18 @@ xib2pdflabels is a simple command-line tool for OS X that generates a multipage 
 
 It supports the [JRPDFLabel](https://github.com/rentzsch/JRPDFLabel) project.
 
-Usage
-=====
+## Usage
 
 	xib2pdflabels output.pdf MainMenu.nib MyWindow.xib
 
 Usually you'll want to name the output file JRPDFLabel.pdf and create a Run Script Build Phase in Xcode to automate the generation of your PDF labels from your xibs and nibs.
 
-TODO
-====
+## TODO
 
 - Nothing currently planned.
 
-Version History
-===============
+## Version History
 
-v1.0.0 (Sat Feb 22 2014)
-------------------------
+### v1.0.0 (Sat Feb 22 2014)
+
 - Initial release.
